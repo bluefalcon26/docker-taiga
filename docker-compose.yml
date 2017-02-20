@@ -1,0 +1,44 @@
+version: '2'
+
+services:
+  postgresql:
+    container_name: taiga-postgres 
+    restart: always
+    image: postgres
+    volumes:
+    - /data/postgres:/var/lib/postgresql/data
+    ports:
+    - "5432"
+
+  backend:
+    container_name: taiga-back
+    restart: always
+    image: daprejean/taiga-back
+    volumes:
+    - taiga-media:/home/taiga/media
+    - taiga-static:/home/taiga/static
+    ports:
+    - "8000:8000"
+    links:
+    - postgresql:postgres
+    environment:
+    - API_NAME
+
+  frontend:
+    container_name: taiga-front
+    restart: always
+    image: daprejean/taiga-front
+    volumes:
+    - taiga-media:/home/taiga/media
+    - taiga-static:/home/taiga/static
+    ports:
+    - "443"
+    - "2222:80"
+    depends_on:
+    - backend
+    environment:
+    - API_NAME
+
+volumes:
+  taiga-media:
+  taiga-static:
