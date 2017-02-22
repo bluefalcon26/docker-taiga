@@ -8,12 +8,7 @@
 
 FROM nginx
 
-RUN mkdir -p /taiga
-WORKDIR /taiga
-
-# checkout source code
-RUN git clone https://github.com/taigaio/taiga-front-dist && git checkout stable
-
+COPY taiga-front-dist/dist /taiga
 # copy configuation files
 COPY conf.json /taiga/conf.json
 COPY run.sh /taiga/run.sh
