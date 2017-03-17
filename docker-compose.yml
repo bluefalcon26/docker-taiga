@@ -22,7 +22,14 @@ services:
     links:
     - postgresql:postgres
     environment:
-    - API_NAME
+    - API_NAME=${API_NAME}
+    - FRONT_NAME=${FRONT_NAME}
+    - SECRET_KEY=${SECRET_KEY}
+    - EMAIL_USE_TLS=${EMAIL_USE_TLS}
+    - EMAIL_HOST=${EMAIL_HOST}
+    - EMAIL_PORT=${EMAIL_PORT}
+    - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+    - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
 
   frontend:
     container_name: taiga-front
@@ -32,12 +39,12 @@ services:
     - taiga-media:/home/taiga/media
     - taiga-static:/home/taiga/static
     ports:
-    - "443"
-    - "2222:80"
+    - "32221:80"
+    - "32222:443"
     depends_on:
     - backend
     environment:
-    - API_NAME
+    - API_NAME=${API_NAME}
 
 volumes:
   taiga-media:

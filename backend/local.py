@@ -22,8 +22,6 @@ from .development import *
 ## GENERIC
 #########################################
 
-#DEBUG = False
-
 #ADMINS = (
 #    ("Admin", "example@example.com"),
 #)
@@ -38,31 +36,29 @@ DATABASES = {
     }
 }
 
-#SITES = {
-#    "api": {
-#       "scheme": "http",
-#       "domain": "localhost:8000",
-#       "name": "api"
-#    },
-#    "front": {
-#       "scheme": "http",
-#       "domain": "localhost:9001",
-#       "name": "front"
-#    },
-#}
+SITES = {
+    "api": {
+       "scheme": "http",
+       "domain": os.getenv("API_NAME"),
+       "name": "api"
+    },
+    "front": {
+       "scheme": "http",
+       "domain": os.getenv("FRONT_NAME"),
+       "name": "front"
+    },
+}
 
-#SITE_ID = "api"
+SITE_ID = "api"
 
 MEDIA_ROOT = '/home/taiga/media'
 STATIC_ROOT = '/home/taiga/static'
 
-MEDIA_URL = "http://" + os.getenv("API_NAME") + "/media/"
-STATIC_URL = "http://" + os.getenv("API_NAME") + "/static/"
-ADMIN_MEDIA_PREFIX = "http://" + os.getenv("API_NAME") + "/static/admin/"
-SITES["front"]["scheme"] = "http"
-SITES["front"]["domain"] = os.getenv("API_NAME")
+MEDIA_URL = "http://" + os.getenv("FRONT_NAME") + "/media/"
+STATIC_URL = "http://" + os.getenv("FRONT_NAME") + "/static/"
+ADMIN_MEDIA_PREFIX = "http://" + os.getenv("FRONT_NAME") + "/static/admin/"
 
-SECRET_KEY = "theveryultrasecretkey"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = False
 TEMPLATE_DEBUG = False
@@ -84,17 +80,16 @@ TEMPLATE_DEBUG = False
 ## MAIL SYSTEM SETTINGS
 #########################################
 
-DEFAULT_FROM_EMAIL = "system@" + os.getenv("API_NAME")
+DEFAULT_FROM_EMAIL = "system@" + os.getenv("FRONT_NAME")
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 #CHANGE_NOTIFICATIONS_MIN_INTERVAL = 300 #seconds
 
-# EMAIL SETTINGS EXAMPLE
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = False
-EMAIL_HOST = ''
-EMAIL_PORT = 25
-#EMAIL_HOST_USER = 'user'
-#EMAIL_HOST_PASSWORD = 'password'
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 # GMAIL SETTINGS EXAMPLE
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

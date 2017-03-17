@@ -1,5 +1,4 @@
 FROM ubuntu:16.04
-MAINTAINER Daniel Prejean "daprejean@gmail.com"
 
 RUN apt-get update && \
 	apt-get install -y \
@@ -11,14 +10,6 @@ RUN apt-get update && \
 	python3 python3-pip python-dev python3-dev python-pip virtualenvwrapper \
 	libxml2-dev libxslt-dev
 
-# RUN useradd -ms /bin/bash taiga doesn't work with static volumes, need root
-
-# RUN mkdir -p /home/taiga/media && chown taiga:taiga /home/taiga/media
-# RUN mkdir -p /home/taiga/static && chown taiga:taiga /home/taiga/static
-# VOLUME /home/taiga/media
-# VOLUME /home/taiga/static
-
-# USER taiga
 RUN mkdir -p /home/taiga
 WORKDIR /home/taiga
 
@@ -33,6 +24,8 @@ RUN bash -c "source /usr/share/virtualenvwrapper/virtualenvwrapper.sh \
 	&& pip install -r requirements.txt"
 
 COPY local.py settings/local.py
+
+EXPOSE 8000
 
 CMD bash -c "source /usr/share/virtualenvwrapper/virtualenvwrapper.sh \
         && workon taiga \
